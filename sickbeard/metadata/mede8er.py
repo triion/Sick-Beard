@@ -347,8 +347,9 @@ class Mede8erMetadata(generic.GenericMetadata):
             seasons_container = []
             image_node = etree.SubElement(movie_node, "image")
             if myShow["_banners"] != None:
-                for banner in myShow["_banners"]:
-                    if banner["season"] != None:
+                for banner in myShow['_banners']:
+                    logger.info("BANNER INFO: "+str(banner))
+                    if banner['season'] != None:
                         seasons_container[int(banner["season"])].append(banner["_bannerpath"])
                     else:
                         type = banner["BannerType"]
@@ -365,10 +366,9 @@ class Mede8erMetadata(generic.GenericMetadata):
                     season_poster = etree.SubElement(season, "poster")
                     season_poster.text = seasons_container[i][j]
         except Exception, e:
-            logger.log("INFO SEASON BANNERS : " + ex(e) + traceback.format_exc(), logger.ERROR)
+            logger.log("INFO SEASON BANNERS : " + traceback.format_exc(), logger.ERROR)
             
         
-        logger.log(u"Sending series-data before indentXML: " + etree.tostring(rootNode), logger.DEBUG)
         
         helpers.indentXML(rootNode)
         
