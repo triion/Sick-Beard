@@ -229,7 +229,7 @@ class Mede8erMetadata(generic.GenericMetadata):
         if tvdb_lang and not tvdb_lang == 'en':
             ltvdb_api_parms['language'] = tvdb_lang
 
-        t = tvdb_api.Tvdb(actors=True, banners=True, **ltvdb_api_parms)
+        t = tvdb_api.Tvdb(banners=True, actors=True, **ltvdb_api_parms)
 
         rootNode = etree.Element("details")
         movie_node = etree.SubElement(rootNode, "movie")
@@ -237,7 +237,7 @@ class Mede8erMetadata(generic.GenericMetadata):
         movie_node.attrib["isSet"] = "false"
         movie_node.attrib["isTV"] = "true"
 
-        logger.log("Meantime xml: " + etree.tostring(rootNode, pretty_print=True), logger.MESSAGE)
+        logger.log("Meantime xml: " + etree.tostring(rootNode), logger.DEBUG)
         
         try:
             myShow = t[int(show_obj.tvdbid)]
@@ -276,7 +276,7 @@ class Mede8erMetadata(generic.GenericMetadata):
         if myShow["zap2it_id"] != None:
             zap2id.text = myShow["zap2it_id"]
 
-        logger.log("Meantime xml: " + etree.tostring(rootNode, pretty_print=True), logger.MESSAGE)
+        logger.log("Meantime xml: " + etree.tostring(rootNode), logger.DEBUG)
 
         premiered = etree.SubElement(movie_node, "premiered")
         if myShow["firstaired"] != None:
@@ -290,7 +290,7 @@ class Mede8erMetadata(generic.GenericMetadata):
         if myShow["ratingcount"] != None:
             ratingcount.text = myShow["ratingcount"]
 
-        logger.log("Meantime xml: " + etree.tostring(rootNode, pretty_print=True), logger.MESSAGE)
+        logger.log("Meantime xml: " + etree.tostring(rootNode), logger.DEBUG)
 
         Status = etree.SubElement(movie_node, "status")
         if myShow['status'] != None:
@@ -304,7 +304,7 @@ class Mede8erMetadata(generic.GenericMetadata):
         if myShow["runtime"] != None:
             Runtime.text = myShow["runtime"]
 
-        logger.log("Meantime xml: " + etree.tostring(rootNode, pretty_print=True), logger.MESSAGE)
+        logger.log("Meantime xml: " + etree.tostring(rootNode), logger.DEBUG)
 
         Airs_Time = etree.SubElement(movie_node, "Airs_Time")
         if myShow['airs_time'] != None:
@@ -318,7 +318,7 @@ class Mede8erMetadata(generic.GenericMetadata):
         if myShow['contentrating'] != None:
             MPAARating.text = myShow['contentrating']
 
-        logger.log("Meantime xml: " + etree.tostring(rootNode, pretty_print=True), logger.MESSAGE)
+        logger.log("Meantime xml: " + etree.tostring(rootNode), logger.DEBUG)
 
         Plot = etree.SubElement(movie_node, "plot")
         if myShow['overview'] != None:
@@ -333,7 +333,7 @@ class Mede8erMetadata(generic.GenericMetadata):
             except:
                 pass
 
-        logger.log("Meantime xml: " + etree.tostring(rootNode, pretty_print=True), logger.MESSAGE)
+        logger.log("Meantime xml: " + etree.tostring(rootNode), logger.DEBUG)
 
         Genres = etree.SubElement(movie_node, "genres")
         if myShow["genre"] != None:
@@ -346,7 +346,7 @@ class Mede8erMetadata(generic.GenericMetadata):
         if myShow["genre"] != None:
             Genre.text = "|".join([x.strip() for x in myShow["genre"].split('|') if x and x.strip()])
 
-        logger.log("Meantime xml: " + etree.tostring(rootNode, pretty_print=True), logger.MESSAGE)
+        logger.log("Meantime xml: " + etree.tostring(rootNode), logger.DEBUG)
 
         cast = etree.SubElement(movie_node, "cast")
         if myShow["_actors"] != None:
@@ -375,11 +375,11 @@ class Mede8erMetadata(generic.GenericMetadata):
         #        season_poster = etree.SubElement(season, "poster")
         #        season_poster.text = seasons_container[i][j]["bannerpath"]
         
-        logger.log(u"Sending series-data before indentXML: " + etree.tostring(rootNode, pretty_print=True), logger.DEBUG)
+        logger.log(u"Sending series-data before indentXML: " + etree.tostring(rootNode), logger.DEBUG)
         
         helpers.indentXML(rootNode)
         
-        logger.log(u"Sending series-data: " + etree.tostring(rootNode, pretty_print=True), logger.DEBUG)
+        logger.log(u"Sending series-data: " + etree.tostring(rootNode), logger.DEBUG)
 
         data = etree.ElementTree(rootNode)
 
