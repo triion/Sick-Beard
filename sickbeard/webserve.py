@@ -850,7 +850,7 @@ class ConfigPostProcessing:
         sickbeard.metadata_provider_dict['Sony PS3'].set_config(sickbeard.METADATA_PS3)
         sickbeard.metadata_provider_dict['WDTV'].set_config(sickbeard.METADATA_WDTV)
         sickbeard.metadata_provider_dict['TIVO'].set_config(sickbeard.METADATA_TIVO)
-        sickbeard.metadata_provider_dict['MEDE8ER'].set_config(sickbeard.METADATA_MEDE8ER)
+        sickbeard.metadata_provider_dict['Mede8er'].set_config(sickbeard.METADATA_MEDE8ER)
 
         # Save changes
         sickbeard.save_config()
