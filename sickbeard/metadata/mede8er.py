@@ -376,9 +376,9 @@ class Mede8erMetadata(generic.GenericMetadata):
                 for j in len(seasons_container[i]):
                     season_poster = etree.SubElement(season, "poster")
                     season_poster.text = seasons_container[i][j]
-        except Exception as err:
+        except Exception, e:
             logger.log("INFO SEASON BANNERS : " + str(seasons_container) +" & "+ etree.tostring(seasons), logger.ERROR)
-            logger.log("ERROR getting SEASON BANNERS :"+''.join(traceback.format_stack()), logger.ERROR)
+            logger.log("ERROR getting SEASON BANNERS :"+ ''.join(traceback.format_stack()), logger.ERROR)
             
         
         
