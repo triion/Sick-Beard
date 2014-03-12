@@ -362,6 +362,8 @@ class Mede8erMetadata(generic.GenericMetadata):
         logger.log(u"Extracting TVDB BannerInfo: " + str(myShow["_banners"]) + " ###", logger.DEBUG)
 
         helpers.indentXML(rootNode)
+        
+        logger.log(u"Sending series-data: " + str(rootNode))
 
         data = etree.ElementTree(rootNode)
 
