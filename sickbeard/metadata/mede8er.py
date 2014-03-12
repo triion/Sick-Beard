@@ -75,7 +75,7 @@ class Mede8erMetadata(generic.GenericMetadata):
                                          season_all_poster,
                                          season_all_banner)
 
-        self.name = "Mede8er (V3 Firmware)"
+        self.name = "Mede8er"
 
         self._ep_nfo_extension = "xml"
         self._show_metadata_filename = "series.xml"
