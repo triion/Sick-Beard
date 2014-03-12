@@ -344,21 +344,21 @@ class Mede8erMetadata(generic.GenericMetadata):
                 cast_actor.text = actor['name']
 
         try:
-            strMyShow = ' '.join(dir(myShow))
+            strMyShow = ' '.join(dir(myShow["_banners"]))
             logger.log("myShow data: "+ strMyShow, logger.DEBUG)
             seasons_container = []
             image_node = etree.SubElement(movie_node, "image")
             if myShow["_banners"] != None:
-                for banner in myShow['_banners']:
-                    logger.log("BANNER INFO: "+str(banner), logger.DEBUG)
-                    if banner['season'] != None:
-                        seasons_container[int(banner["season"])].append(banner["_bannerpath"])
-                    else:
-                        type = banner["BannerType"]
-                        if banner["BannerType"] == "series":
-                            type = "banner"
-                        image = etree.SubElement(image_node, type)
-                        image.text = banner["BannerPath"]
+                for fanart in myShow['_banners']['fanart']:
+                    art_node = etree.SubElement(image_node, 'fanart')
+                    art_node.text = fanart['_bannerpath']
+                for poster in myShow['_banners']['poster']:
+                    poster_node = etree.SubElement(image_node, 'poster')
+                    poster_node.text = poster['_bannerpath']
+                for series in myShow['_banners']['series']:
+                    banner_node = etree.SubElement(image_node, 'banner')
+                    banner_node.text = series['_bannerpath']
+                
 
             seasons = etree.SubElement(movie_node, "seasons")
             for i in len(seasons_container):
