@@ -842,15 +842,15 @@ class ConfigPostProcessing:
         sickbeard.METADATA_PS3 = sony_ps3_data
         sickbeard.METADATA_WDTV = wdtv_data
         sickbeard.METADATA_TIVO = tivo_data
-		sickbeard.METADATA_MEDE8ER = mede8er_data
-		
+        sickbeard.METADATA_MEDE8ER = mede8er_data
+        
         sickbeard.metadata_provider_dict['XBMC'].set_config(sickbeard.METADATA_XBMC)
         sickbeard.metadata_provider_dict['XBMC 12+'].set_config(sickbeard.METADATA_XBMC_12PLUS)
         sickbeard.metadata_provider_dict['MediaBrowser'].set_config(sickbeard.METADATA_MEDIABROWSER)
         sickbeard.metadata_provider_dict['Sony PS3'].set_config(sickbeard.METADATA_PS3)
         sickbeard.metadata_provider_dict['WDTV'].set_config(sickbeard.METADATA_WDTV)
         sickbeard.metadata_provider_dict['TIVO'].set_config(sickbeard.METADATA_TIVO)
-		sickbeard.metadata_provider_dict['MEDE8ER'].set_config(sickbeard.METADATA_MEDE8ER)
+        sickbeard.metadata_provider_dict['MEDE8ER'].set_config(sickbeard.METADATA_MEDE8ER)
 
         # Save changes
         sickbeard.save_config()
