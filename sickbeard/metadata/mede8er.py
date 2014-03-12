@@ -338,26 +338,26 @@ class Mede8erMetadata(generic.GenericMetadata):
                 cast_actor = etree.SubElement(cast, "actor")
                 cast_actor.text = actor['name']
 
-        seasons_container = []
-        image_node = etree.SubElement(movie_node, "image")
-        if myShow["_banners"] != None:
-            for banner in myShow["_banners"]:
-                if banner["season"] != None:
-                    seasons_container[banner["season"]].append(banner)
-                else:
-                    type = banner["BannerType"]
-                    if banner["BannerType"] == "series":
-                        type = "banner"
-                    image = etree.SubElement(image_node, type)
-                    image.text = banner["BannerPath"]
+        #seasons_container = []
+        #image_node = etree.SubElement(movie_node, "image")
+        #if myShow["_banners"] != None:
+        #    for banner in myShow["_banners"]:
+        #        if banner["season"] != None:
+        #            seasons_container[banner["season"]].append(banner)
+        #        else:
+        #            type = banner["BannerType"]
+        #            if banner["BannerType"] == "series":
+        #                type = "banner"
+        #            image = etree.SubElement(image_node, type)
+        #            image.text = banner["BannerPath"]
 
-        seasons = etree.SubElement(movie_node, "seasons")
-        for i in len(seasons_container):
-            season = etree.SubElement(seasons, "season")
-            season.attrib["number"] = i
-            for j in len(seasons_container[i]):
-                season_poster = etree.SubElement(season, "poster")
-                season_poster.text = seasons_container[i][j]["bannerpath"]
+        #seasons = etree.SubElement(movie_node, "seasons")
+        #for i in len(seasons_container):
+        #    season = etree.SubElement(seasons, "season")
+        #    season.attrib["number"] = i
+        #    for j in len(seasons_container[i]):
+        #        season_poster = etree.SubElement(season, "poster")
+        #        season_poster.text = seasons_container[i][j]["bannerpath"]
         
         logger.log(u"Extracting TVDB BannerInfo: " + str(myShow["_banners"]) + " ###", logger.DEBUG)
 
