@@ -348,7 +348,7 @@ class Mede8erMetadata(generic.GenericMetadata):
             image_node = etree.SubElement(movie_node, "image")
             if myShow["_banners"] != None:
                 for banner in myShow['_banners']:
-                    logger.info("BANNER INFO: "+str(banner))
+                    logger.log("BANNER INFO: "+str(banner), logger.DEBUG)
                     if banner['season'] != None:
                         seasons_container[int(banner["season"])].append(banner["_bannerpath"])
                     else:
