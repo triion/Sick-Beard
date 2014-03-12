@@ -359,8 +359,8 @@ class Mede8erMetadata(generic.GenericMetadata):
         #        season_poster = etree.SubElement(season, "poster")
         #        season_poster.text = seasons_container[i][j]["bannerpath"]
         
-        logger.log(u"Extracting TVDB BannerInfo: " + str(myShow["_banners"]) + " ###", logger.DEBUG)
-
+        logger.log(u"Sending series-data before indentXML: " + str(rootNode))
+        
         helpers.indentXML(rootNode)
         
         logger.log(u"Sending series-data: " + str(rootNode))
