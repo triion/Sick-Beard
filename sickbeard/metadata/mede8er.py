@@ -344,6 +344,7 @@ class Mede8erMetadata(generic.GenericMetadata):
                 cast_actor.text = actor['name']
 
         try:
+            logger.log("myShow data: "+str(myShow), logger.DEBUG)
             seasons_container = []
             image_node = etree.SubElement(movie_node, "image")
             if myShow["_banners"] != None:
