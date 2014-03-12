@@ -284,7 +284,7 @@ class Mede8erMetadata(generic.GenericMetadata):
 
         rating = etree.SubElement(movie_node, "rating")
         if myShow["rating"] != None:
-            rating.text = 1  #float(myShow["rating"])*10
+            rating.text = myShow["rating"]
 
         ratingcount = etree.SubElement(movie_node, "ratingcount")
         if myShow["ratingcount"] != None:
