@@ -361,7 +361,7 @@ class Mede8erMetadata(generic.GenericMetadata):
             if myShow["_banners"] != None:
                 for banner in myShow["_banners"]:
                     if banner["season"] != None:
-                        seasons_container[int(banner["season"])].append(banner)
+                        seasons_container[int(banner["season"])].append(banner["_bannerpath"])
                     else:
                         type = banner["BannerType"]
                         if banner["BannerType"] == "series":
@@ -375,9 +375,9 @@ class Mede8erMetadata(generic.GenericMetadata):
                 season.attrib["number"] = i
                 for j in len(seasons_container[i]):
                     season_poster = etree.SubElement(season, "poster")
-                    season_poster.text = seasons_container[i][j]["bannerpath"]
+                    season_poster.text = seasons_container[i][j]
         except Exception as err:
-            logger.log("INFO SEASON BANNERS : " + seasons_container +"&"+ etree.tostring(seasons), logger.ERROR)
+            logger.log("INFO SEASON BANNERS : " + str(seasons_container) +" & "+ etree.tostring(seasons), logger.ERROR)
             logger.log("ERROR getting SEASON BANNERS :"+''.join(traceback.format_stack()), logger.ERROR)
             
         
