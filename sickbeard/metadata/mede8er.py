@@ -221,6 +221,8 @@ class Mede8erMetadata(generic.GenericMetadata):
         show_obj: a TVShow instance to create the XML-NFO for
         """
 
+        logger.log("Starting Mede8er _show_data method", logger.MESSAGE)
+        
         tvdb_lang = show_obj.lang
         ltvdb_api_parms = sickbeard.TVDB_API_PARMS.copy()
 
@@ -235,6 +237,8 @@ class Mede8erMetadata(generic.GenericMetadata):
         movie_node.attrib["isSet"] = "false"
         movie_node.attrib["isTV"] = "true"
 
+        logger.log("Meantime xml: " + etree.tostring(rootNode, pretty_print=True), logger.MESSAGE)
+        
         try:
             myShow = t[int(show_obj.tvdbid)]
         except tvdb_exceptions.tvdb_shownotfound:
@@ -272,6 +276,8 @@ class Mede8erMetadata(generic.GenericMetadata):
         if myShow["zap2it_id"] != None:
             zap2id.text = myShow["zap2it_id"]
 
+        logger.log("Meantime xml: " + etree.tostring(rootNode, pretty_print=True), logger.MESSAGE)
+
         premiered = etree.SubElement(movie_node, "premiered")
         if myShow["firstaired"] != None:
             premiered.text = myShow["firstaired"]
@@ -283,6 +289,8 @@ class Mede8erMetadata(generic.GenericMetadata):
         ratingcount = etree.SubElement(movie_node, "ratingcount")
         if myShow["ratingcount"] != None:
             ratingcount.text = myShow["ratingcount"]
+
+        logger.log("Meantime xml: " + etree.tostring(rootNode, pretty_print=True), logger.MESSAGE)
 
         Status = etree.SubElement(movie_node, "status")
         if myShow['status'] != None:
@@ -296,6 +304,8 @@ class Mede8erMetadata(generic.GenericMetadata):
         if myShow["runtime"] != None:
             Runtime.text = myShow["runtime"]
 
+        logger.log("Meantime xml: " + etree.tostring(rootNode, pretty_print=True), logger.MESSAGE)
+
         Airs_Time = etree.SubElement(movie_node, "Airs_Time")
         if myShow['airs_time'] != None:
             Airs_Time.text = myShow['airs_time']
@@ -307,6 +317,8 @@ class Mede8erMetadata(generic.GenericMetadata):
         MPAARating = etree.SubElement(movie_node, "mpaa")
         if myShow['contentrating'] != None:
             MPAARating.text = myShow['contentrating']
+
+        logger.log("Meantime xml: " + etree.tostring(rootNode, pretty_print=True), logger.MESSAGE)
 
         Plot = etree.SubElement(movie_node, "plot")
         if myShow['overview'] != None:
@@ -321,6 +333,8 @@ class Mede8erMetadata(generic.GenericMetadata):
             except:
                 pass
 
+        logger.log("Meantime xml: " + etree.tostring(rootNode, pretty_print=True), logger.MESSAGE)
+
         Genres = etree.SubElement(movie_node, "genres")
         if myShow["genre"] != None:
             for genre in myShow['genre'].split('|'):
@@ -331,6 +345,8 @@ class Mede8erMetadata(generic.GenericMetadata):
         Genre = etree.SubElement(movie_node, "genre")
         if myShow["genre"] != None:
             Genre.text = "|".join([x.strip() for x in myShow["genre"].split('|') if x and x.strip()])
+
+        logger.log("Meantime xml: " + etree.tostring(rootNode, pretty_print=True), logger.MESSAGE)
 
         cast = etree.SubElement(movie_node, "cast")
         if myShow["_actors"] != None:
@@ -359,11 +375,11 @@ class Mede8erMetadata(generic.GenericMetadata):
         #        season_poster = etree.SubElement(season, "poster")
         #        season_poster.text = seasons_container[i][j]["bannerpath"]
         
-        logger.log(u"Sending series-data before indentXML: " + str(rootNode),logger.DEBUG)
+        logger.log(u"Sending series-data before indentXML: " + etree.tostring(rootNode, pretty_print=True), logger.DEBUG)
         
         helpers.indentXML(rootNode)
         
-        logger.log(u"Sending series-data: " + str(rootNode), logger.DEBUG)
+        logger.log(u"Sending series-data: " + etree.tostring(rootNode, pretty_print=True), logger.DEBUG)
 
         data = etree.ElementTree(rootNode)
 
