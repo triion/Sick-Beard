@@ -530,4 +530,4 @@ class Mede8erMetadata(generic.GenericMetadata):
 
 
 # present a standard "interface" from the module
-metadata_class = MediaBrowserMetadata
+metadata_class = Mede8erMetadata
