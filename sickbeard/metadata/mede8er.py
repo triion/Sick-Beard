@@ -272,7 +272,7 @@ class Mede8erMetadata(generic.GenericMetadata):
             imdbid.text = myShow["imdb_id"]
 
         zap2id = etree.SubElement(movie_node, "id")
-        imdbid.attrib["moviedb"] = "zap2it"
+        zap2id.attrib["moviedb"] = "zap2it"
         if myShow["zap2it_id"] != None:
             zap2id.text = myShow["zap2it_id"]
 
@@ -284,7 +284,7 @@ class Mede8erMetadata(generic.GenericMetadata):
 
         rating = etree.SubElement(movie_node, "rating")
         if myShow["rating"] != None:
-            rating.text = myShow["rating"]
+            rating.text = str(float(myShow["rating"])*10)
 
         ratingcount = etree.SubElement(movie_node, "ratingcount")
         if myShow["ratingcount"] != None:
