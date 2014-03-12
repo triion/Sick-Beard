@@ -377,8 +377,7 @@ class Mede8erMetadata(generic.GenericMetadata):
                     season_poster.text = seasons_container[i][j]["bannerpath"]
         except Exception as err:
             logger.log("ERROR getting SEASON BANNERS "+ex(err), logger.ERROR)
-            
-        log.exception("EXCEPTION getting SEASON BANNERS : %s, %s", seasons_container, etree.tostring(seasons))
+            logger.exception("EXCEPTION getting SEASON BANNERS : %s, %s", seasons_container, etree.tostring(seasons))
         
         
         logger.log(u"Sending series-data before indentXML: " + etree.tostring(rootNode), logger.DEBUG)
