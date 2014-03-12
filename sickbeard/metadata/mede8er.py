@@ -360,7 +360,7 @@ class Mede8erMetadata(generic.GenericMetadata):
             if myShow["_banners"] != None:
                 for banner in myShow["_banners"]:
                     if banner["season"] != None:
-                        seasons_container[banner["season"]].append(banner)
+                        seasons_container[int(banner["season"])].append(banner)
                     else:
                         type = banner["BannerType"]
                         if banner["BannerType"] == "series":
@@ -377,6 +377,7 @@ class Mede8erMetadata(generic.GenericMetadata):
                     season_poster.text = seasons_container[i][j]["bannerpath"]
         except Exception, e:
             logger.log("ERROR getting SEASON BANNERS "+ex(e), logger.ERROR)
+            logger.exception(e)
         
         
         logger.log(u"Sending series-data before indentXML: " + etree.tostring(rootNode), logger.DEBUG)
