@@ -370,7 +370,8 @@ class Mede8erMetadata(generic.GenericMetadata):
                 
                 if myShow["_banners"]["series"]["graphical"] != None:
                     logger.log("Series exists : "+ str(len(myShow["_banners"]["series"]["graphical"])), logger.DEBUG)
-                    for series in myShow['_banners']['series']["graphical"]:logger.    log("series found: "+ str(series), logger.DEBUG)
+                    for series in myShow['_banners']['series']["graphical"]:
+                        logger.log("series found: "+ str(series), logger.DEBUG)
                         banner_node = etree.SubElement(image_node, 'banner')
                         banner_node.text = series['_bannerpath']
                         logger.log("series bannerpath: "+ str(series['_bannerpath']), logger.DEBUG)
