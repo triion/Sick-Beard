@@ -357,14 +357,14 @@ class Mede8erMetadata(generic.GenericMetadata):
                         art_node.text = fanart['_bannerpath']
                 
                 if myShow["_banners"]["poster"]["680x1000"] != None:
-                for poster in myShow['_banners']['poster']["680x1000"]:
-                    poster_node = etree.SubElement(image_node, 'poster')
-                    poster_node.text = poster['_bannerpath']
+                    for poster in myShow['_banners']['poster']["680x1000"]:
+                        poster_node = etree.SubElement(image_node, 'poster')
+                        poster_node.text = poster['_bannerpath']
                 
                 if myShow["_banners"]["series"]["graphical"] != None:
-                for series in myShow['_banners']['series']["graphical"]:
-                    banner_node = etree.SubElement(image_node, 'banner')
-                    banner_node.text = series['_bannerpath']
+                    for series in myShow['_banners']['series']["graphical"]:
+                        banner_node = etree.SubElement(image_node, 'banner')
+                        banner_node.text = series['_bannerpath']
                 
 
             #seasons_container = []
