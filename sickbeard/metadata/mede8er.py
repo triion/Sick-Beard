@@ -347,28 +347,34 @@ class Mede8erMetadata(generic.GenericMetadata):
             season_dict = self._season_posters_dict(show_obj, 1)
             strMyShow = ' '.join(dir(myShow["_banners"]))
             logger.log("myShow data: "+ str(myShow.data), logger.DEBUG)
-            logger.log("myShow dict: "+ str(myShow.dict), logger.DEBUG)
-            seasons_container = []
+            
+            
             image_node = etree.SubElement(movie_node, "image")
             if myShow["_banners"] != None:
-                for fanart in myShow['_banners']['fanart']:
-                    art_node = etree.SubElement(image_node, 'fanart')
-                    art_node.text = fanart['_bannerpath']
-                for poster in myShow['_banners']['poster']:
+                if myShow["_banners"]["fanart"]["1920x1080"] != None:
+                    for fanart in myShow['_banners']['fanart']["1920x1080"]:
+                        art_node = etree.SubElement(image_node, 'fanart')
+                        art_node.text = fanart['_bannerpath']
+                
+                if myShow["_banners"]["poster"]["680x1000"] != None:
+                for poster in myShow['_banners']['poster']["680x1000"]:
                     poster_node = etree.SubElement(image_node, 'poster')
                     poster_node.text = poster['_bannerpath']
-                for series in myShow['_banners']['series']:
+                
+                if myShow["_banners"]["series"]["graphical"] != None:
+                for series in myShow['_banners']['series']["graphical"]:
                     banner_node = etree.SubElement(image_node, 'banner')
                     banner_node.text = series['_bannerpath']
                 
 
-            seasons = etree.SubElement(movie_node, "seasons")
-            for i in len(seasons_container):
-                season = etree.SubElement(seasons, "season")
-                season.attrib["number"] = i
-                for j in len(seasons_container[i]):
-                    season_poster = etree.SubElement(season, "poster")
-                    season_poster.text = seasons_container[i][j]
+            #seasons_container = []
+            #seasons = etree.SubElement(movie_node, "seasons")
+            #for i in len(seasons_container):
+            #    season = etree.SubElement(seasons, "season")
+            #    season.attrib["number"] = i
+            #    for j in len(seasons_container[i]):
+            #        season_poster = etree.SubElement(season, "poster")
+            #        season_poster.text = seasons_container[i][j]
         except Exception, e:
             logger.log("INFO SEASON BANNERS : " + traceback.format_exc(), logger.ERROR)
             
