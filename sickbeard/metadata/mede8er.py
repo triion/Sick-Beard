@@ -362,7 +362,7 @@ class Mede8erMetadata(generic.GenericMetadata):
                 
                 if myShow["_banners"]["poster"]["680x1000"] != None:
                     logger.log("Posters exists : "+ str(len(myShow["_banners"]["poster"]["680x1000"])), logger.DEBUG)
-                    for poster in myShow['_banners']['poster']["680x1000"]:
+                    for poster in myShow['_banners']['poster']["680x1000"].values():
                         logger.log("Poster found: "+ str(poster), logger.DEBUG)
                         poster_node = etree.SubElement(image_node, 'poster')
                         poster_node.text = poster['_bannerpath']
@@ -370,7 +370,7 @@ class Mede8erMetadata(generic.GenericMetadata):
                 
                 if myShow["_banners"]["series"]["graphical"] != None:
                     logger.log("Series exists : "+ str(len(myShow["_banners"]["series"]["graphical"])), logger.DEBUG)
-                    for series in myShow['_banners']['series']["graphical"]:
+                    for series in myShow['_banners']['series']["graphical"].values():
                         logger.log("series found: "+ str(series), logger.DEBUG)
                         banner_node = etree.SubElement(image_node, 'banner')
                         banner_node.text = series['_bannerpath']
