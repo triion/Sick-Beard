@@ -354,7 +354,7 @@ class Mede8erMetadata(generic.GenericMetadata):
                 logger.log("Searching _banners : "+ str(myShow["_banners"]), logger.DEBUG)
                 if myShow["_banners"]["fanart"]["1920x1080"] != None:
                     logger.log("fanart exists : "+ str(len(myShow["_banners"]["fanart"]["1920x1080"])), logger.DEBUG)
-                    for fanart in myShow['_banners']['fanart']["1920x1080"]:
+                    for fanart in myShow['_banners']['fanart']["1920x1080"].values():
                         logger.log("Fanart found: "+ str(fanart), logger.DEBUG)
                         art_node = etree.SubElement(image_node, 'fanart')
                         art_node.text = fanart['_bannerpath']
