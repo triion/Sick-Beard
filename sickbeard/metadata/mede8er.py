@@ -351,20 +351,29 @@ class Mede8erMetadata(generic.GenericMetadata):
             
             image_node = etree.SubElement(movie_node, "image")
             if myShow["_banners"] != None:
+                logger.log("Searching _banners : "+ str(myShow["_banners"]), logger.DEBUG)
                 if myShow["_banners"]["fanart"]["1920x1080"] != None:
+                    logger.log("fanart exists : "+ str(len(myShow["_banners"]["fanart"]["1920x1080"])), logger.DEBUG)
                     for fanart in myShow['_banners']['fanart']["1920x1080"]:
+                        logger.log("Fanart found: "+ str(fanart), logger.DEBUG)
                         art_node = etree.SubElement(image_node, 'fanart')
                         art_node.text = fanart['_bannerpath']
+                        logger.log("Fanart bannerpath: "+ str(fanart['_bannerpath']), logger.DEBUG)
                 
                 if myShow["_banners"]["poster"]["680x1000"] != None:
+                    logger.log("Posters exists : "+ str(len(myShow["_banners"]["poster"]["680x1000"])), logger.DEBUG)
                     for poster in myShow['_banners']['poster']["680x1000"]:
+                        logger.log("Poster found: "+ str(poster), logger.DEBUG)
                         poster_node = etree.SubElement(image_node, 'poster')
                         poster_node.text = poster['_bannerpath']
+                        logger.log("poster bannerpath: "+ str(poster['_bannerpath']), logger.DEBUG)
                 
                 if myShow["_banners"]["series"]["graphical"] != None:
-                    for series in myShow['_banners']['series']["graphical"]:
+                    logger.log("Series exists : "+ str(len(myShow["_banners"]["series"]["graphical"])), logger.DEBUG)
+                    for series in myShow['_banners']['series']["graphical"]:logger.    log("series found: "+ str(series), logger.DEBUG)
                         banner_node = etree.SubElement(image_node, 'banner')
                         banner_node.text = series['_bannerpath']
+                        logger.log("series bannerpath: "+ str(series['_bannerpath']), logger.DEBUG)
                 
 
             #seasons_container = []
