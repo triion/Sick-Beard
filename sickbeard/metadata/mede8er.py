@@ -400,12 +400,14 @@ class Mede8erMetadata(generic.GenericMetadata):
 
     def _ep_data(self, ep_obj):
         """
-        Creates an elementTree XML structure for a MediaBrowser style episode.xml
+        Creates an elementTree XML structure for a Mede8er style episode.xml
         and returns the resulting data object.
 
-        show_obj: a TVShow instance to create the NFO for
+        ep_obj: a TVShow instance to create the XML-NFO for
         """
 
+        logger.log("Starting Mede8er _ep_data method", logger.DEBUG)
+        
         eps_to_write = [ep_obj] + ep_obj.relatedEps
 
         persons_dict = {}
@@ -431,9 +433,9 @@ class Mede8erMetadata(generic.GenericMetadata):
             logger.log(u"Unable to connect to TVDB while creating meta files - skipping - " + ex(e), logger.ERROR)
             return False
 
-        rootNode = etree.Element("Item")
+        rootNode = etree.Element("movie")
 
-        # write an MediaBrowser XML containing info for all matching episodes
+        # write an Mede8er XML containing info for all matching episodes
         for curEpToWrite in eps_to_write:
 
             try:
@@ -453,62 +455,86 @@ class Mede8erMetadata(generic.GenericMetadata):
                     return None
 
                 episode = rootNode
+                
+                episodeTVDB = etree.SubElement(episode, "tvdbid")
+                episodeTVDB.text = str(curEpToWrite.tvdbid)
 
-                EpisodeName = etree.SubElement(episode, "EpisodeName")
+                imdbid = etree.SubElement(episode, "id")
+                imdbid.attrib["moviedb"] = "imdb"
+                if myEp.season.show["imdb_id"] != None:
+                    imdbid.text = myEp.season.show["imdb_id"]
+
+                title = etree.SubElement(episode, "title")
+                if curEpToWrite.show.name != None:
+                    title.text = curEpToWrite.show.name
+                
+                seriesid = etree.SubElement(episode, "seriesid")
+                seriesid.text = str(curEpToWrite.show.tvdbid)
+                
+                SeasonNumber = etree.SubElement(episode, "season")
+                SeasonNumber.text = str(curEpToWrite.season)
+
+                seasonid = etree.SubElement(episode, "seasonid")
+                seasonid.text = myEp['seasonid']
+            
+                EpisodeName = etree.SubElement(episode, "episodename")
                 if curEpToWrite.name != None:
                     EpisodeName.text = curEpToWrite.name
                 else:
                     EpisodeName.text = ""
 
-                EpisodeNumber = etree.SubElement(episode, "EpisodeNumber")
+                EpisodeNumber = etree.SubElement(episode, "episodeNumber")
                 EpisodeNumber.text = str(ep_obj.episode)
 
                 if ep_obj.relatedEps:
-                    EpisodeNumberEnd = etree.SubElement(episode, "EpisodeNumberEnd")
+                    EpisodeNumberEnd = etree.SubElement(episode, "episodeNumberEnd")
                     EpisodeNumberEnd.text = str(curEpToWrite.episode)
-
-                SeasonNumber = etree.SubElement(episode, "SeasonNumber")
-                SeasonNumber.text = str(curEpToWrite.season)
 
                 if not ep_obj.relatedEps:
                     absolute_number = etree.SubElement(episode, "absolute_number")
                     absolute_number.text = myEp['absolute_number']
 
-                FirstAired = etree.SubElement(episode, "FirstAired")
+                FirstAired = etree.SubElement(episode, "episodereleasedate")
                 if curEpToWrite.airdate != datetime.date.fromordinal(1):
                     FirstAired.text = str(curEpToWrite.airdate)
                 else:
                     FirstAired.text = ""
 
-                MetadataType = etree.SubElement(episode, "Type")
-                MetadataType.text = "Episode"
-
-                Overview = etree.SubElement(episode, "Overview")
+                Overview = etree.SubElement(episode, "episodeplot")
                 if curEpToWrite.description != None:
                     Overview.text = curEpToWrite.description
                 else:
                     Overview.text = ""
 
+                plot = etree.SubElement(episode, "plot")
+                if curEpToWrite.description != None:
+                    plot.text = myEp.season.show["overview"]
+                
+                
+                Genres = etree.SubElement(episode, "genres")
+                if myEp.season.show["genre"] != None:
+                    for genre in myEp.season.show["genre"].split('|'):
+                        if genre and genre.strip():
+                            cur_genre = etree.SubElement(Genres, "genre")
+                            cur_genre.text = genre.strip()
+                
+                rating = etree.SubElement(episode, "mpaa")
+                if myEp.season.show["contentrating"] != None:
+                    rating.text = myEp.season.show["contentrating"]
+
+                runtime = etree.SubElement(episode, "runtime")
+                if myEp.season.show["runtime"] != None:
+                    runtime.text = myEp.season.show["runtime"]
+
                 if not ep_obj.relatedEps:
-                    Rating = etree.SubElement(episode, "Rating")
+                    Rating = etree.SubElement(episode, "rating")
                     rating_text = myEp['rating']
                     if rating_text != None:
                         Rating.text = rating_text
 
-                    IMDB_ID = etree.SubElement(episode, "IMDB_ID")
-                    IMDB = etree.SubElement(episode, "IMDB")
-                    IMDbId = etree.SubElement(episode, "IMDbId")
-                    if myShow['imdb_id'] != None:
-                        IMDB_ID.text = myShow['imdb_id']
-                        IMDB.text = myShow['imdb_id']
-                        IMDbId.text = myShow['imdb_id']
+                Persons = etree.SubElement(episode, "cast")
 
-                TvDbId = etree.SubElement(episode, "TvDbId")
-                TvDbId.text = str(curEpToWrite.tvdbid)
-
-                Persons = etree.SubElement(episode, "Persons")
-
-                Language = etree.SubElement(episode, "Language")
+                Language = etree.SubElement(episode, "language")
                 Language.text = myEp['language']
 
                 thumb = etree.SubElement(episode, "filename")
@@ -544,16 +570,24 @@ class Mede8erMetadata(generic.GenericMetadata):
                 persons_dict['Writer'] += [x.strip() for x in myEp['writer'].split('|') if x and x.strip()]
 
         # fill in Persons section with collected directors, guest starts and writers
-        for person_type, names in persons_dict.iteritems():
+        for names in persons_dict['Director'].iteritems():
             # remove doubles
             names = list(set(names))
-            for cur_name in names:
-                Person = etree.SubElement(Persons, "Person")
-                cur_person_name = etree.SubElement(Person, "Name")
-                cur_person_name.text = cur_name
-                cur_person_type = etree.SubElement(Person, "Type")
-                cur_person_type.text = person_type
-
+            director = etree.SubElement(episode, "director")
+            director.text = names.join("|")
+        
+        for names in persons_dict['GuestStar'].iteritems():
+            # remove doubles
+            names = list(set(names))
+            gueststar = etree.SubElement(episode, "gueststar")
+            gueststar.text = names.join("|")
+  
+        for names in persons_dict['Writer'].iteritems():
+            # remove doubles
+            names = list(set(names))
+            writer = etree.SubElement(episode, "credits")
+            writer.text = names.join("|")
+  
         helpers.indentXML(rootNode)
         data = etree.ElementTree(rootNode)
 
